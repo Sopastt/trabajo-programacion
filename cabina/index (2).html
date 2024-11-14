@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de IMC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            background-image: url('gordo devorando.jpg'); /* Imagen de fondo predeterminada */
+            background-size: cover;
+            background-position: center;
+            color: white;
+            transition: background-color 0.5s, background-image 0.5s;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente para el formulario */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input[type="number"], input[type="button"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        input[type="button"] {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        input[type="button"]:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+
+        img {
+            width: 100%;
+            max-width: 200px;
+            margin-top: 20px;
+        }
+
+        .message {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Calculadora de IMC</h1>
+        <form id="imcForm">
+            <label for="peso">Peso (kg):</label>
+            <input type="number" id="peso" required>
+
+            <label for="altura">Altura (m):</label>
+            <input type="number" step="0.01" id="altura" required>
+
+            <input type="button" value="Calcular IMC" onclick="calcularIMC()">
+        </form>
+
+        <div class="result" id="resultado"></div>
+        <img id="imagenResultado" src="" alt="Imagen IMC">
+        <div id="mensaje"></div>
+    </div>
+
+    <script>
+        function calcularIMC() {
+            var peso = parseFloat(document.getElementById("peso").value);
+            var altura = parseFloat(document.getElementById("altura").value);
+
+            if (isNaN(peso) || isNaN(altura) || peso <= 0 || altura <= 0) {
+                alert("Por favor, ingrese valores válidos.");
+                return;
+            }
+
+            // Calcular el IMC
+            var imc = peso / (altura * altura);
+            var resultado = document.getElementById("resultado");
+            var imagen = document.getElementById("imagenResultado");
+            var mensaje = document.getElementById("mensaje");
+
+            // Mostrar el IMC calculado
+            resultado.textContent = "Tu IMC es: " + imc.toFixed(2);
+
+            // Determinar la categoría del IMC y mostrar la imagen correspondiente
+            if (imc < 18.5) {
+                mensaje.textContent = "come mas papito";
+                imagen.src = "flaco de mierda.jpg";  // Cambiar por tu propia URL
+                cambiarFondo("bajo-peso");
+            } else if (imc >= 18.5 && imc < 24.9) {
+                mensaje.textContent = "tas bien ";
+                imagen.src = "stock persona normal.jpg";  // Cambiar por tu propia URL
+                cambiarFondo("peso-normal");
+            } else if (imc >= 25 && imc < 29.9) {
+                mensaje.textContent = "un poco mucha pansa";
+                imagen.src = "sobrepeso.jpg";  // Cambiar por tu propia URL
+                cambiarFondo("sobrepeso");
+            } else {
+                mensaje.textContent = "hace dieta urgente";
+                imagen.src = "homero gordo.webp";  // Cambiar por tu propia URL
+                cambiarFondo("obesidad");
+            }
+        }
+
+        // Función para cambiar el fondo según la categoría del IMC
+        function cambiarFondo(categoria) {
+            switch (categoria) {
+                case "bajo-peso":
+                    document.body.style.backgroundColor = "#FFCCCB"; // Color suave para bajo peso (rojo claro)
+                    document.body.style.backgroundImage = "url('https://images.unsplash.com/photo-1597766463290-f5a6366b643f')";  // Fondo predeterminado de gimnasio
+                    break;
+                case "peso-normal":
+                    document.body.style.backgroundColor = "#C1E1C1"; // Color verde suave para peso normal
+                    document.body.style.backgroundImage = "url('https://images.unsplash.com/photo-1597766463290-f5a6366b643f')";  // Fondo de gimnasio
+                    break;
+                case "sobrepeso":
+                    document.body.style.backgroundColor = "#F7E74C"; // Color amarillo para sobrepeso
+                    document.body.style.backgroundImage = "url('https://images.unsplash.com/photo-1597766463290-f5a6366b643f')";  // Fondo de gimnasio
+                    break;
+                case "obesidad":
+                    document.body.style.backgroundColor = "#F28D82"; // Color rojo para obesidad
+                    document.body.style.backgroundImage = "url('https://images.unsplash.com/photo-1597766463290-f5a6366b643f')";  // Fondo de gimnasio
+                    break;
+                default:
+                    document.body.style.backgroundColor = "#f4f4f9"; // Fondo por defecto (gris claro)
+                    document.body.style.backgroundImage = "none";
+                    break;
+            }
+        }
+    </script>
+
+</body>
+</html>
